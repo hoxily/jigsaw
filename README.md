@@ -12,3 +12,15 @@ a jigsaw game developed using unity3d
 ## 改进项
 当前是切分为矩形的拼图块。可以简单的添加BoxCollider2D，即可以实现拖放效果。
 如果欲实现非矩形的拼图块（例如相邻块之间互相凹凸嵌入对方的曲线边界），那么如何实现精确地拖放有待解决。
+
+## android版app构建流程
+
+1. 在Unity 3D 界面中以Gradle形式export出android工程；
+2. 打开 Assembly-CSharp-Split.sln 解决方案，内含两个工程，分别用于生成基础dll代码和动态加载的dll代码；
+3. 修改 Assembly-CSharp-init.csproj 工程的引用，使其指向导出的android工程中的相关dll；
+4. 同理修改 Assembly-CSharp-dynamic.csproj 工程的引用，使其指向 init 工程生成的dll以及导出的android工程中的相关dll；
+5. init与dynamic引用无误后，执行生成解决方案命令；
+6. 复制init生成的Assembly-CSharp.dll，覆盖导出的android工程中的src/main/assets/bin/Data/Managed下的同名dll。
+7. 生成apk
+8. 使用Unity界面的Assets/Build AssetBundles命令生成AssetBundle包。Console里有指出输出路径；
+9. 把第5步dynamic工程生成的Assembly-CSharp-dynamic.dll以及AssetBundle包放到web server目录。注意AssetBundle包放在ABs目录下，dll放在根目录即可。
