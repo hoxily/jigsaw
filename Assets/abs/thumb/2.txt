@@ -1,0 +1,5 @@
+{
+	"title": "ROSI小莉",
+	"rows": 8,
+	"columns": 12
+}
